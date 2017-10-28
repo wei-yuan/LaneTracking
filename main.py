@@ -6,13 +6,15 @@ import track
 import detect
 
 
-def main(video_path):
-    cap = cv2.VideoCapture(video_path)
+def main(): 
+    print 'whee~'   
+    cap = cv2.VideoCapture('/home/alex504/img_video_file/kalman/road_view.mp4')
 
     ticks = 0
 
     lt = track.LaneTracker(2, 0.1, 500)
     ld = detect.LaneDetector(180)
+    
     while cap.isOpened():
         precTick = ticks
         ticks = cv2.getTickCount()
@@ -33,3 +35,7 @@ def main(video_path):
         cv2.imshow('', frame)
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
+    
+    # When everything done, release the capture
+    cap.release()
+    cv2.destroyAllWindows()
