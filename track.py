@@ -3,7 +3,6 @@ import cv2
 import numpy as np
 from scipy.linalg import block_diag
 
-
 class LaneTracker:
     def __init__(self, n_lanes, proc_noise_scale, meas_noise_scale, process_cov_parallel=0, proc_noise_type='white'):
         self.n_lanes = n_lanes

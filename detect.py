@@ -1,8 +1,8 @@
+#!/usr/bin/python
 from __future__ import division
 
 import cv2
 import numpy as np
-
 
 class LaneDetector:
     def __init__(self, road_horizon, prob_hough=True):
@@ -12,8 +12,8 @@ class LaneDetector:
         self.road_horizon = road_horizon
 
     def _standard_hough(self, img, init_vote):
-        # Hough transform wrapper to return a list of points like PHough does
-        lines = cv2.HoughLines(img, 1, np.pi/180, init_vote)
+        # Hough transform wrapper to return a list of points like PHough does        
+        lines = cv2.HoughLines(img, 1, np.pi/180, init_vote) # OpenCL
         points = [[]]
         for l in lines:
             for rho, theta in l:
@@ -64,15 +64,16 @@ class LaneDetector:
         return x1, y1, x2, y2
 
     def detect(self, frame):
-        img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        img = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY) # OpenCL
 
         roiy_end = frame.shape[0]
         roix_end = frame.shape[1]
         roi = img[self.road_horizon:roiy_end, 0:roix_end]
-        blur = cv2.medianBlur(roi, 5)
-        contours = cv2.Canny(blur, 60, 120)
+        blur = cv2.medianBlur(roi, 5) # OpenCL
+        contours = cv2.Canny(blur, 60, 120) # OpenCL - canny.cl
 
         if self.prob_hough:
+            # OpenCL
             lines = cv2.HoughLinesP(contours, 1, np.pi/180, self.vote, minLineLength=30, maxLineGap=100)
         else:
             lines = self.standard_hough(contours, self.vote)
