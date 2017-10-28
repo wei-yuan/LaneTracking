@@ -1,3 +1,4 @@
+#!/usr/bin/python
 from __future__ import division
 
 import cv2
@@ -5,10 +6,11 @@ import cv2
 import track
 import detect
 
+vidoe_path = '/home/alex504/img_video_file/kalman/road_view.mp4'
 
-def main(): 
+def main(input_vidoe_path): 
     print 'whee~'   
-    cap = cv2.VideoCapture('/home/alex504/img_video_file/kalman/road_view.mp4')
+    cap = cv2.VideoCapture(input_vidoe_path)
 
     ticks = 0
 
@@ -39,3 +41,6 @@ def main():
     # When everything done, release the capture
     cap.release()
     cv2.destroyAllWindows()
+
+if __name__ == "__main__":
+    main(vidoe_path)
