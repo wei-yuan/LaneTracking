@@ -41,8 +41,10 @@ class LaneTracker:
             self.kf.transitionMatrix[i, i+1] = dt
 
     def _first_detect(self, lanes):
-        for l, i in zip(lanes, range(0, self.state_size, 8)):
+        for l, i in zip(lanes, range(0, self.state_size, 8)):            
             self.state[i:i+8:2, 0] = l
+            print "state_size: ", self.state_size
+            print "\nl: ", l
         self.kf.statePost = self.state
         self.first_detected = True
 
@@ -51,6 +53,8 @@ class LaneTracker:
             for l, i in zip(lanes, range(0, self.meas_size, 4)):
                 if l is not None:
                     self.meas[i:i+4, 0] = l
+                    print "meas_size: ", self.meas_size
+                    print "\nl: ", l
             self.kf.correct(self.meas)
         else:
             if lanes.count(None) == 0:

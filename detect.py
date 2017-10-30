@@ -43,11 +43,11 @@ class LaneDetector:
         if x1 == x2:
             if y1 < y2:
                 y1 = self.road_horizon
-                y2 = frame_height
+                y2 = frame_height                
                 return x1, y1, x2, y2
             else:
                 y2 = self.road_horizon
-                y1 = frame_height
+                y1 = frame_height                
                 return x1, y1, x2, y2
         if y1 < y2:
             m = (y1-y2)/(x1-x2)
@@ -60,7 +60,7 @@ class LaneDetector:
             x2 = ((self.road_horizon-y2)/m) + x2
             y2 = self.road_horizon
             x1 = ((frame_height-y1)/m) + x1
-            y1 = frame_height
+            y1 = frame_height               
         return x1, y1, x2, y2
 
     def detect(self, frame):
